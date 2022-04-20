@@ -16,39 +16,8 @@ jobs:
         run: npm install
       - name: Generate unrouted PCBs
         run: npm run gen
-      - name: Export DSN for main PCB
-        uses: ./.github/actions/export-dsn
+      - name: Download generated board
+        uses: actions/download-artifact@v3.0.0
         with:
-          pcb_file: output/pcbs/board.kicad_pcb
-          dsn_file: output/pcbs/board.dsn
-      - name: Autoroute main PCB
-        uses: ./.github/actions/autoroute
-        with:
-          dsn_file: output/pcbs/board.dsn
-          ses_file: output/pcbs/board.ses
-      - name: Import SES into main PCB
-        uses: ./.github/actions/import-ses
-        with:
-          pcb_input_file: output/pcbs/board.kicad_pcb
-          pcb_output_file: output/pcbs/board_routed.kicad_pcb
-          ses_file: output/pcbs/board.ses
-      - name: Export Gerbers for top plate
-        uses: ./.github/actions/export-gerbers
-        with:
-          pcb_file: output/pcbs/top_plate.kicad_pcb
-          gerbers_dir: output/gerbers/top_plate
-      - name: Export Gerbers for bottom plate
-        uses: ./.github/actions/export-gerbers
-        with:
-          pcb_file: output/pcbs/bottom_plate.kicad_pcb
-          gerbers_dir: output/gerbers/bottom_plate
-      - name: Export Gerbers for main PCB
-        uses: ./.github/actions/export-gerbers
-        with:
-          pcb_file: output/pcbs/board.kicad_pcb
-          gerbers_dir: output/gerbers/board
-      - name: Persist output
-        uses: actions/upload-artifact@v2
-        with:
-          name: samoklava-routed-pcbs-and-gerbers
-          path: output
+          name: board.kicad_pcb
+          path: output/pcbs/board.kicad_pcb
