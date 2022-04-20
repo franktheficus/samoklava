@@ -19,5 +19,4 @@ jobs:
       - name: Download generated board
         uses: actions/download-artifact@v3.0.0
         with:
-          name: board.kicad_pcb
-          path: output/pcbs/board.kicad_pcb
+          path: ~/output/pcbs
